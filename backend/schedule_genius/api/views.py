@@ -15,7 +15,6 @@ def chat_gpt_api(request):
                 + user_input
                 + "'",
             )
-            tracemalloc.stop()
             return JsonResponse(
                 {
                     "input": user_input,
