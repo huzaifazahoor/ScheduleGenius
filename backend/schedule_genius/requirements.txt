@@ -1,4 +1,5 @@
-git+https://github.com/mmabrouk/chatgpt-wrapper
+wheel
+openai
 django
 requests
-wheel
+python-dotenv
