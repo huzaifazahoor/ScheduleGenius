@@ -2,9 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import openai
-from dotenv import dotenv_values
 
-config = dotenv_values(".env")
 
 @csrf_exempt
 def chat_gpt_api(request):
@@ -12,7 +10,7 @@ def chat_gpt_api(request):
         try:
             user_input = request.POST.get("input") or None
             if user_input:
-                openai.api_key = config["API_KEY"]
+                openai.api_key = "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"
                 response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=[
@@ -31,11 +29,7 @@ def chat_gpt_api(request):
                     if op.strip() != ""
                 ]
                 return JsonResponse(
-                    {
-                        "input": user_input,
-                        "output": output,
-                        "AI_response": resp_output
-                    }
+                    {"input": user_input, "output": output, "AI_response": resp_output}
                 )
             else:
                 e = "Please pass some input here."
