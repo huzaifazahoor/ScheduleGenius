@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import openai
-
+import json
 
 @csrf_exempt
 def chat_gpt_api(request):
     if request.method == "POST":
         try:
             user_input = request.POST.get("input") or None
+            if user_input is None:
+                user_input = json.loads(request.body).get("input") or None
             if user_input:
                 openai.api_key = "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"
                 response = openai.ChatCompletion.create(
@@ -32,12 +34,12 @@ def chat_gpt_api(request):
                     {"input": user_input, "output": output, "AI_response": resp_output}
                 )
             else:
-                e = "Please pass some input here."
+                msg = "Please pass some input here."
         except Exception as e:
-            pass
+            msg = e
         return JsonResponse(
             {
-                "error": str(e),
+                "error": str(msg),
             }
         )
     elif request.method == "GET":
